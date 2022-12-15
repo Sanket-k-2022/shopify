@@ -37,23 +37,19 @@ class Shopify
         $methods = ['get','post','put','delete'];
         return $methods;
     }
-    public function run($method, $endpoint, $appendby='', $params=[], $iteration=0)
+    public function run($method, $endpoint, $params=[], $iteration=0)
     {
         if(!in_array($method, $this->methods())) {
             throw new MethodNotAllowedException($this->methods(), 'method not allowed');
         }
 
-        $url = "https://$this->shop.myshopify.com/admin/api/$this->api_version/$endpoint";
-        if(!empty($appendby)) {
-            $url .= "/$appendby.json";
-        }
-        else {
-            $url .= ".json";
-        }
+        $url = "https://$this->shop.myshopify.com/admin/api/$this->api_version/$endpoint.json";
         $client  = new \GuzzleHttp\Client();
         $options['headers'] = $this->headers;
         if($params)
             $options['body'] = json_encode($params);
+//        $url .= '?'. http_build_query($params);
+//        dd($url);
         try {
             $http_response  = $client->request($method, $url, $options);
             $rate_limit = $http_response->getHeader('X-Shopify-Shop-Api-Call-Limit');

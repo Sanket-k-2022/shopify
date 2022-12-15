@@ -11,9 +11,9 @@ class ProductImage
         $this->api = $api;
     }
 
-    public function create($product_id)
+    public function create($product_id, $params = [])
     {
-        return $this->api->run('post', "products/$product_id/images");
+        return $this->api->run('post', "products/$product_id/images", $params);
     }
 
     public function list($product_id, $params=[])

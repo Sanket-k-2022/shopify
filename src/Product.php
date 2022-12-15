@@ -10,6 +10,11 @@ class Product
     {
         $this->api = $api;
     }
+    
+    public function create($productAttributes=[])
+    {
+        return $this->api->run('post', 'products', $productAttributes);
+    }
 
     public function getProductByID($product_id)
     {
